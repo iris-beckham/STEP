@@ -7,3 +7,14 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+img {
+  height: 30px;
+  width: 30px;
+}
+body {
+  background-color: AliceBlue;
+}
+p {
+  word-wrap: break-word;
+}
