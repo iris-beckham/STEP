@@ -21,27 +21,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.ArrayList;
+import com.google.gson.Gson;
+
 
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-   private List<String> randoms;
+   private List<String> comments;
 
   @Override
   public void init() {
-    randoms = new ArrayList<>();
-    randoms.add("Welcome to my portfolio!");
-    randoms.add("Hello World");
-    randoms.add("Isn't this exciting!");
+    comments = new ArrayList<>();
+    comments.add("Welcome to my portfolio!");
+    comments.add("Hello World");
+    comments.add("Isn't this exciting!");
   }
 
+  private String convertToJsonUsingGson(List<String> comments) {
+    Gson gson = new Gson();
+    String json = gson.toJson(comments);
+    return json;
+  }
+  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String random = randoms.get((int) (Math.random() * randoms.size()));
+    String comment = comments.get((int) (Math.random() * comments.size()));
 
     response.setContentType("text/html;");
-    response.getWriter().println(random);
+    response.getWriter().println(convertToJsonUsingGson(comments));
   }
+
+
+
 }

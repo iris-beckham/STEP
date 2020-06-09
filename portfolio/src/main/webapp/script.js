@@ -30,10 +30,11 @@ function addRandomGreeting() {
 
 
 
- async function getRandom() {
+ async function getComments() {
   const response = await fetch('/data');
-  const random = await response.text();
-  document.getElementById('greeting-container').innerText = random;
+//   console.log(response);
+  const comment = await response.text();
+  document.getElementById('greeting-container').innerText = comment;
  }
 
 
