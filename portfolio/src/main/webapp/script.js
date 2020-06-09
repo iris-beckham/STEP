@@ -25,4 +25,15 @@ function addRandomGreeting() {
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
-}
+ }
+
+
+
+
+ async function getRandom() {
+  const response = await fetch('/data');
+  const random = await response.text();
+  document.getElementById('greeting-container').innerText = random;
+ }
+
+
