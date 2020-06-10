@@ -14,15 +14,25 @@
       <p>This is my portfolio.</p>
       <p>Click here to get a random message:</p>
       <button onclick="addRandomGreeting()">Hello</button>
-     
+    <div id="greeting-container"></div>
+
       
       <p><h3>About Me</h3>
       Iris Beckham is a rising Sophomore studying Computer Science at Washington University in St. Louis. Some of her extracirricular activities include: serving as Community Outreach lead for DSC, working with the committee for the Diversity and Inclusion Summit, and dancing in various school perfomances. In her free time, she enjoys dancing and watching TV. 
       </p>
     </div>
-
-     <center><button onclick="getComments()">See comments</button></center>
-      <div id="greeting-container"></div>
+    <center>
+    <form action="/data" method="POST">
+      <label for="name">Name:</label></br>
+      <input type="text" id="name" name="name"> <br>
+     <label for="comment">Enter Your Comment here:</label></br>
+      <input type="text" id="comment" name="comment"><br>
+      <input type="submit"/>
+    </form>
+    
+    <!-- <body onload="getComments()"> -->
+   <button onclick="getComments()">See comments</button></center>
+    <div id="comments-container"></div></body></center>
 
 
   </body>

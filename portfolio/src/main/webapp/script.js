@@ -34,7 +34,19 @@ function addRandomGreeting() {
   const response = await fetch('/data');
 //   console.log(response);
   const comment = await response.text();
-  document.getElementById('greeting-container').innerText = comment;
+  const commentContainer = document.getElementById('comments-container');
+  commentContainer.innertext = comment;
+  console.log(comment);
+
+    // const historyEl = document.getElementById('history');
+    // this.comments-container.forEach((line) => {
+    //   commentContainer.appendChild(createListElement(line));
+    // });
+
  }
 
-
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
