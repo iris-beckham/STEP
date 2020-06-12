@@ -33,23 +33,42 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-
-   private class Comment {
-     long id;
-      String name;
-      String comment;
-     long timestamp;
-    private Comment(long id, String name, String comment, long timestamp) {
-      this.id = id;
-      this.name = name;
-      this.comment = comment;
-      this.timestamp = timestamp;
+  
+  private class Comment {
+    long id;
+    String name;
+    String comment;
+    long timestamp;
+  private Comment(long id, String name, String comment, long timestamp) {
+    this.id = id;
+    this.name = name;
+    this.comment = comment;
+    this.timestamp = timestamp;
     }
   }
 
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+    response.setContentType("text/html");
+    if (userService.isUserLoggedIn()) {
+      String userEmail = userService.getCurrentUser().getEmail();
+      String urlToRedirectToAfterUserLogsOut = "/";
+      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+
+      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
+      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+    } else {
+      String urlToRedirectToAfterUserLogsIn = "/";
+      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
+
+      response.getWriter().println("<p>Hello stranger.</p>");
+      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+    }
+    
+    
+    
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -70,24 +89,6 @@ public class DataServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(comments));
 
-    UserService userService = UserServiceFactory.getUserService();
-    response.setContentType("text/html");
-    if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
-
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
-    } else {
-      String urlToRedirectToAfterUserLogsIn = "/";
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
-      response.getWriter().println("<p>Hello stranger.</p>");
-      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
-    }
-
-
   }
 
  @Override
@@ -96,12 +97,15 @@ public class DataServlet extends HttpServlet {
     String name = request.getParameter("name");
     String commentString = request.getParameter("comment");
     long timestamp = System.currentTimeMillis();
+    String email = userService.getCurrentUser().getEmail();
+
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("id",id);
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("comment", commentString);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("email", email);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
     response.sendRedirect("/index.html"); 
