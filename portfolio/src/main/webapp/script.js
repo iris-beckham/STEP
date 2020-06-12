@@ -38,11 +38,6 @@ function addRandomGreeting() {
   commentContainer.innertext = comment;
   console.log(comment);
 
-    // const historyEl = document.getElementById('history');
-    // this.comments-container.forEach((line) => {
-    //   commentContainer.appendChild(createListElement(line));
-    // });
-
  }
 
 function createListElement(text) {

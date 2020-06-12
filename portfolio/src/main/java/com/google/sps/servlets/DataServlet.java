@@ -85,7 +85,7 @@ public class DataServlet extends HttpServlet {
       comments.add(commentObject);
     }
 
-    Gson gson= new Gson();
+    Gson gson = new Gson();
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(comments));
 
@@ -101,7 +101,7 @@ public class DataServlet extends HttpServlet {
 
 
     Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("id",id);
+    commentEntity.setProperty("id", id);
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("comment", commentString);
     commentEntity.setProperty("timestamp", timestamp);
