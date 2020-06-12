@@ -25,4 +25,23 @@ function addRandomGreeting() {
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
+ }
+
+
+
+
+ async function getComments() {
+  const response = await fetch('/data');
+//   console.log(response);
+  const comment = await response.text();
+  const commentContainer = document.getElementById('comments-container');
+  commentContainer.innertext = comment;
+  console.log(comment);
+
+ }
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
